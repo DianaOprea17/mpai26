@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>MAGAZIN - Admin Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 14px;
+        }
+        h1, h2 {
+            margin-bottom: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 6px 10px;
+            text-align: left;
+        }
+        th {
+            font-weight: bold;
+        }
+        select, button {
+            padding: 4px 8px;
+            font-size: 14px;
+        }
+        button {
+            cursor: pointer;
+        }
+        .no-orders {
+            font-style: italic;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Admin Panel</h1>
+
+<h2>Toate comenzile:</h2>
+
+<div th:if="${comenzi.isEmpty()}" class="no-orders">
+    Nu există comenzi înregistrate.
+</div>
+
+<table th:unless="${comenzi.isEmpty()}">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Client</th>
+        <th>Stare</th>
+        <th>Data</th>
+        <th>Acțiuni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="comanda : ${comenzi}">
+        <td th:text="${comanda.id}">1</td>
+        <td th:text="${comanda.client}">Ion Popescu</td>
+        <td th:text="${comanda.stare}">Plasata</td>
+        <td th:text="${#temporals.format(comanda.dataComenzii, 'dd/MM/yyyy')}">01/01/2025</td>
+        <td>
+            <form th:action="@{/admin/modifica-stare/{id}(id=${comanda.id})}" method="post">
+                <select name="stareNoua" required>
+                    <option value="">-- Selectează --</option>
+                    <option value="plasata" th:selected="${comanda.stare == 'plasata'}">Plasata</option>
+                    <option value="procesata" th:selected="${comanda.stare == 'procesata'}">Procesata</option>
+                    <option value="expediata" th:selected="${comanda.stare == 'expediata'}">Expediata</option>
+                    <option value="livrata" th:selected="${comanda.stare == 'livrata'}">Livrata</option>
+                </select>
+                <button type="submit">Actualizează</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>
