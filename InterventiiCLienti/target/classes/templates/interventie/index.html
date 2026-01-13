@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - Interventii</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 14px;
+        }
+        h1, h2 {
+            margin-bottom: 8px;
+        }
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .toolbar {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+        .toolbar form {
+            display: inline-block;
+            margin-right: 15px;
+        }
+        .toolbar input {
+            padding: 6px;
+            margin-right: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 6px 10px;
+            text-align: left;
+        }
+        th {
+            font-weight: bold;
+            background-color: #f0f0f0;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        select, button {
+            padding: 4px 8px;
+            font-size: 14px;
+        }
+        button {
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .no-data {
+            font-style: italic;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Admin Panel - Interventii Service Auto</h1>
+
+<!-- Mesaje de succes/eroare -->
+<div th:if="${mesaj}" class="alert alert-success" th:text="${mesaj}"></div>
+<div th:if="${eroare}" class="alert alert-error" th:text="${eroare}"></div>
+
+<!-- Toolbar căutare și filtrare -->
+<div class="toolbar">
+    <form action="/interventii/cauta" method="get">
+        <input type="text" name="q" placeholder="Caută după client..." required>
+        <button type="submit">🔍 Caută</button>
+    </form>
+
+    <form action="/interventii/filtru" method="get">
+        <select name="stare">
+            <option value="">Toate stările</option>
+            <option value="TRANSMISA">Solicitare transmisă</option>
+            <option value="ACCEPTATA">Solicitare acceptată</option>
+            <option value="ECHIPA_PLECATA">Echipă plecată</option>
+        </select>
+        <button type="submit">📊 Filtrează</button>
+    </form>
+
+    <a href="/interventii">
+        <button>🔄 Resetează</button>
+    </a>
+</div>
+
+<h2>Toate interventiile înregistrate:</h2>
+
+<div th:if="${interventii.isEmpty()}" class="no-data">
+    Nu există interventii înregistrate.
+</div>
+
+<table th:unless="${interventii.isEmpty()}">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Client</th>
+        <th>Descriere</th>
+        <th>Locație</th>
+        <th>Stare</th>
+        <th>Data</th>
+        <th>Acțiuni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="i : ${interventii}">
+        <td th:text="${i.id}">1</td>
+        <td th:text="${i.client}">Ion Popescu</td>
+        <td th:text="${i.descriere}">Motor defect</td>
+        <td th:text="${i.locatie}">Bucuresti</td>
+        <td th:text="${i.stare}">TRANSMISA</td>
+        <td th:text="${#temporals.format(i.dataInterventiei, 'dd/MM/yyyy')}">11/01/2026</td>
+        <td>
+            <form th:action="@{/interventii/modifica-stare/{id}(id=${i.id})}"
+                  method="post"
+                  style="display: inline;">
+                <select name="stareNoua" required>
+                    <option value="">-- Selectează --</option>
+                    <option value="TRANSMISA" th:selected="${i.stare == 'TRANSMISA'}">Solicitare transmisă</option>
+                    <option value="ACCEPTATA" th:selected="${i.stare == 'ACCEPTATA'}">Solicitare acceptată</option>
+                    <option value="ECHIPA_PLECATA" th:selected="${i.stare == 'ECHIPA_PLECATA'}">Echipă plecată</option>
+                </select>
+                <button type="submit">Actualizează</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<p th:unless="${interventii.isEmpty()}" style="margin-top: 15px;">
+    <strong>Total interventii:</strong> <span th:text="${interventii.size()}">0</span>
+</p>
+
+</body>
+</html>

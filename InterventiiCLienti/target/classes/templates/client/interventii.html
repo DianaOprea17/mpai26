@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Interventiile Mele</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            margin-bottom: 15px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: left;
+        }
+        th {
+            font-weight: bold;
+        }
+        .no-interventii {
+            padding: 10px;
+            font-style: italic;
+            margin-top: 10px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 10px;
+            text-decoration: none;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Interventiile Mele</h1>
+<p>Client: <strong th:text="${numeClient}">Nume Client</strong></p>
+
+<!-- Mesaj dacă nu există interventii -->
+<div th:if="${interventii.isEmpty()}" class="no-interventii">
+    Nu aveți interventii înregistrate.
+</div>
+
+<!-- Tabel cu interventii -->
+<table th:unless="${interventii.isEmpty()}">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Descriere</th>
+        <th>Locație</th>
+        <th>Stare</th>
+        <th>Data</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="interventie : ${interventii}">
+        <td th:text="${interventie.id}">1</td>
+        <td th:text="${interventie.descriere}">Motor defect</td>
+        <td th:text="${interventie.locatie}">Bucuresti</td>
+        <td>
+            <span th:if="${interventie.stare == 'TRANSMISA'}">
+                Solicitare transmisă
+            </span>
+            <span th:if="${interventie.stare == 'ACCEPTATA'}">
+                Solicitare acceptată
+            </span>
+            <span th:if="${interventie.stare == 'ECHIPA_PLECATA'}">
+                Echipă plecată
+            </span>
+        </td>
+        <td th:text="${#temporals.format(interventie.dataInterventiei, 'dd/MM/yyyy')}">11/01/2026</td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/client">Înapoi</a>
+
+</body>
+</html>

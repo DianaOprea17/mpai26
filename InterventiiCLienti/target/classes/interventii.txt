@@ -1,0 +1,8 @@
+Ion Popescu;Motor face zgomot ciudat si pierde putere;Str. Aviatorilor nr. 5, Bucuresti;TRANSMISA;2026-01-10
+Ion Popescu;Probleme la sistemul de franare ABS;Bd. Unirii nr. 23, Bucuresti;ACCEPTATA;2026-01-08
+Maria Ionescu;Parbriz spart necesita inlocuire urgenta;Str. Victoriei nr. 15, Bucuresti;ECHIPA_PLECATA;2026-01-11
+Gheorghe Marinescu;Baterie descarcata nu porneste masina;Calea Floreasca nr. 100, Bucuresti;TRANSMISA;2026-01-11
+Ana Dumitrescu;Probleme la frane chiuie la franare;Str. Mihai Bravu nr. 45, Bucuresti;ACCEPTATA;2026-01-09
+Ion Popescu;Faruri arse ambele faze scurte;Bd. Carol I nr. 78, Bucuresti;TRANSMISA;2026-01-12
+Vasile Tudor;Probleme la cutia de viteze zgomote ciudate;Str. Dorobanti nr. 120, Bucuresti;ECHIPA_PLECATA;2026-01-10
+Elena Stanescu;Anvelope necesita schimbare uzate complet;Calea Victoriei nr. 200, Bucuresti;ACCEPTATA;2026-01-11
